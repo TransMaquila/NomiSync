@@ -13,16 +13,24 @@ namespace NomiSync.Controllers
             return View();
         }
 
+        public ActionResult NomipaqUtilities()
+        {
+            ViewData["Message"] = "Utilerias para Nomipaq (Nomina Maniobras)";
+
+            return View();
+        }
+
+
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Nomipaq Utilies.";
 
             return View();
         }
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Transmaquila.com";
 
             return View();
         }
