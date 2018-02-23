@@ -11,7 +11,7 @@ namespace NomiSync.Controllers
 
         public async Task<string> Get()
         {
-            return await Nomipaq.Transfer(true);
+            return await Nomipaq.Transfer(Processed:true);
 
         }
 
@@ -23,7 +23,7 @@ namespace NomiSync.Controllers
 
         public async Task<string> Get()
         {
-            return await Nomipaq.Transfer();
+            return await Nomipaq.Transfer(Processed:false);
 
         }
 

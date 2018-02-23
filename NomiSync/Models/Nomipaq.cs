@@ -149,7 +149,7 @@ namespace NomiSync.Models
             return totalRecords;
         }
 
-        public async static Task<string> Transfer(bool Processed=false, string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
+        public async static Task<string> Transfer(bool Processed, string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
         {
             string SourceTable = "";
 
