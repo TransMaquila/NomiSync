@@ -149,41 +149,48 @@ namespace NomiSync.Models
             return totalRecords;
         }
 
-        public async static Task<string> Transfer(bool Processed, string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
+        public async static Task<string> Transfer(string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
         {
-            string SourceTable = "";
+            string DeclarationsString = $@" 
+                DECLARE @PeriodoTrabajoManiobras  NVARCHAR(30) = ( SELECT periodotrabajo FROM [NOM_TRANSMAQUILA_MAN].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
+                DECLARE @PeriodoTrabajoFiscal     NVARCHAR(30) = ( SELECT periodotrabajo FROM [NOM_TRANSMAQUILA_SA].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
+                DECLARE @EjercicioManiobras       NVARCHAR(30) = ( SELECT ejercicio FROM [NOM_TRANSMAQUILA_MAN].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
 
-            if (Processed)
-            {
-                SourceTable = "nom10007";
-            }
-            else
-            {
-                SourceTable = "nom10008";
-            }
-            string queryString = $@"
-                DECLARE @numeroperiodoTmp   INT = ( SELECT posicionpagonomina FROM [{targetDB}].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
-                DECLARE @Ejercicio          INT = ( SELECT ejercicio FROM [{targetDB}].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
-                DECLARE @IdPeriodo          INT = ( SELECT TOP 1 [idperiodo] FROM [{sourceDB}].[dbo].[nom10002] WHERE numeroperiodo=@numeroperiodoTmp and ejercicio=@Ejercicio ORDER BY timestamp desc )
-                DECLARE @DebitChargeAccount INT = ( SELECT TOP 1 [idconcepto] FROM [{targetDB}].[dbo].[nom10004] WHERE descripcion='Neto Nomina Fiscal' )
-                DECLARE @NetPayIdAccount    INT = ( SELECT TOP 1 [idconcepto] FROM [{sourceDB}].[dbo].[nom10004] WHERE descripcion='Neto' )
+                DECLARE @IdPeriodo                NVARCHAR(30) = ( SELECT TOP 1 [idperiodo] FROM [NOM_TRANSMAQUILA_SA].[dbo].[nom10002] 
+                                                          WHERE numeroperiodo=@PeriodoTrabajoManiobras and ejercicio=@EjercicioManiobras 
+                                                          ORDER BY timestamp desc )
 
-                DELETE [{targetDB}].[dbo].[nom10008]
+                DECLARE @DebitChargeAccount      NVARCHAR(30) = ( SELECT TOP 1 [idconcepto] FROM [NOM_TRANSMAQUILA_MAN].[dbo].[nom10004] WHERE descripcion='Neto Nomina Fiscal' )
+                DECLARE @NetPayIdAccount         NVARCHAR(30) = ( SELECT TOP 1 [idconcepto] FROM [NOM_TRANSMAQUILA_SA].[dbo].[nom10004] WHERE descripcion='Neto' )
+
+                DECLARE @SourceTable             NVARCHAR(30) = CASE WHEN @PeriodoTrabajoManiobras < @PeriodoTrabajoFiscal THEN N'nom10007' ELSE N'nom10008' END
+                
+                DECLARE @QueryString             NVARCHAR(MAX)
+
+            ";
+            string queryString = DeclarationsString + $@"
+            
+                DELETE [NOM_TRANSMAQUILA_MAN].[dbo].[nom10008]
                 WHERE idperiodo=@IdPeriodo and idconcepto=@DebitChargeAccount
-                -- SELECT * from [{targetDB}].[dbo].[nom10008]
-                INSERT INTO [{targetDB}].[dbo].[nom10008] (
+                ";
+            await DAL.Execute(queryString);
+            queryString = DeclarationsString + $@"
+                SET @QueryString=
+                'INSERT INTO [NOM_TRANSMAQUILA_MAN].[dbo].[nom10008] (
                     [idperiodo],[idempleado],[idconcepto],[idmovtopermanente],[importetotal],[valor],[importe1],[importe2]
                       ,[importe3],[importe4],[importetotalreportado],[importe1reportado],[importe2reportado],[importe3reportado]
                       ,[importe4reportado],[timestamp]
                       )
-                SELECT   a.[idperiodo], a.[idempleado],  @DebitChargeAccount [idconcepto], 0, a.[importetotal],0,0,0,0,0,1,0,0,0,0,CURRENT_TIMESTAMP
-                FROM [{sourceDB}].[dbo].[{SourceTable}] a
-	                INNER JOIN [{sourceDB}].[dbo].[nom10001] b on a.[idempleado]=b.[idempleado] 
-                WHERE a.idperiodo =@IdPeriodo AND a.idconcepto = @NetPayIdAccount AND b.estadoempleado <> 'B'
-                ";
+                SELECT   a.[idperiodo], a.[idempleado],  ' + @DebitChargeAccount  + ' [idconcepto], 0, a.[importetotal],0,0,0,0,0,1,0,0,0,0,CURRENT_TIMESTAMP
 
+                FROM [NOM_TRANSMAQUILA_SA].[dbo].' + QUOTENAME(@SourceTable) + ' a
+	                INNER JOIN [NOM_TRANSMAQUILA_SA].[dbo].[nom10001] b on a.[idempleado]=b.[idempleado] 
+                WHERE a.idperiodo =' + @IdPeriodo + ' AND a.idconcepto = ' + @NetPayIdAccount + ' AND b.estadoempleado <> ''B'''
+                exec (@QueryString)
+                ";
             string totalRecords = await DAL.Execute(queryString);
             return totalRecords.ToString();
+
         }
 
     }

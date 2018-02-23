@@ -4,26 +4,14 @@ using System.Web.Http;
 
 namespace NomiSync.Controllers
 {
-    [Route("TransferProcessed/Nomipaq")]
-    public class TransferProcessedController : ApiController
+    [Route("Transfer/Nomipaq")]
+    public class TransferController : ApiController
     {
         // GET: api/Nomipaq
 
         public async Task<string> Get()
         {
-            return await Nomipaq.Transfer(Processed:true);
-
-        }
-
-    }
-    [Route("TransferNotProcessed/Nomipaq")]
-    public class TransferNotProcessedController : ApiController
-    {
-        // GET: api/Nomipaq
-
-        public async Task<string> Get()
-        {
-            return await Nomipaq.Transfer(Processed:false);
+            return await Nomipaq.Transfer();
 
         }
 
