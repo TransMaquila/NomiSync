@@ -10,13 +10,41 @@
     <div class="divTableBody">
         <div class="divTableRow">
             <div class="divTableCell"><h3>Sincronizar tablas de Empleados, vacaciones, incapacidades, tipos de incidencias e incidencias</h3></div>
-            <div class="divTableCell">@Html.ActionLink("Ejecutar", "Nomipaq", "Syncronize", null, new { @class = "btn btn-primary btn-large center-block" })</div>
+            <div class="divTableCell text-center">@Html.ActionLink("Ejecutar", "Nomipaq", "Syncronize", null, new { @class = "btn btn-primary btn-large text-center" })</div>
         </div>
         <div class="divTableRow">
-            <div class="divTableCell"><h3>Transferir Netos de la Nomina Fiscal a la Nomina de Maniobras.</h3></div>
-            <div class="divTableCell"> @Html.ActionLink("Ejecutar", "Nomipaq", "Transfer", null, new { @class = "btn btn-primary btn-large center-block" })</div>
+            <div class="divTableCell"><h3>La Nomina Fiscal ya fue autorizada</h3></div>
+            <div class="divTableCell text-center">@Html.CheckBox("isFiscalProcessed", false, new { @class = "big-checkbox" })</div>
+        </div>
+        <div class="divTableRow">
+            <div class="divTableCell"><h3>Transferir Netos de la Nomina Fiscal a la Nomina de Maniobras</h3></div>
+            <div class="divTableCell text-center">
+                @Html.ActionLink("Ejecutar", "Nomipaq", "TransferProcessed", null, new { id = "TransferProcessed", @style = "display: none;", @class = "btn btn-primary btn-large text-center" })
+                @Html.ActionLink("Ejecutar", "Nomipaq", "TransferNotProcessed", null, new { id = "TransferNotProcessed", @class = "btn btn-primary btn-large text-center" })
+            </div>
         </div>
     </div>
 </div>
-<!-- DivTable.com -->
 
+
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $('#isFiscalProcessed').change(function () {
+                if ($('#isFiscalProcessed').is(':checked')) {
+                    $("#TransferProcessed").show();
+                    $("#TransferNotProcessed").hide();
+                } else {
+                    $("#TransferProcessed").hide();
+                    $("#TransferNotProcessed").show();
+                }
+            });
+        });
+
+    </script>
+}
+
+<!-- DivTable.com -->

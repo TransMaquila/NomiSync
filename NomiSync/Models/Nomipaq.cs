@@ -149,9 +149,18 @@ namespace NomiSync.Models
             return totalRecords;
         }
 
-        public async static Task<string> Transfer(string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
+        public async static Task<string> Transfer(bool Processed=false, string sourceDB = "NOM_TRANSMAQUILA_SA", string targetDB = "NOM_TRANSMAQUILA_MAN")
         {
+            string SourceTable = "";
 
+            if (Processed)
+            {
+                SourceTable = "nom10007";
+            }
+            else
+            {
+                SourceTable = "nom10008";
+            }
             string queryString = $@"
                 DECLARE @numeroperiodoTmp   INT = ( SELECT posicionpagonomina FROM [{targetDB}].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
                 DECLARE @Ejercicio          INT = ( SELECT ejercicio FROM [{targetDB}].[dbo].[nom10023] where nombretipoperiodo='Semanal' )
@@ -168,7 +177,7 @@ namespace NomiSync.Models
                       ,[importe4reportado],[timestamp]
                       )
                 SELECT   a.[idperiodo], a.[idempleado],  @DebitChargeAccount [idconcepto], 0, a.[importetotal],0,0,0,0,0,1,0,0,0,0,CURRENT_TIMESTAMP
-                FROM [{sourceDB}].[dbo].[nom10008] a
+                FROM [{sourceDB}].[dbo].[{SourceTable}] a
 	                INNER JOIN [{sourceDB}].[dbo].[nom10001] b on a.[idempleado]=b.[idempleado] 
                 WHERE a.idperiodo =@IdPeriodo AND a.idconcepto = @NetPayIdAccount AND b.estadoempleado <> 'B'
                 ";

@@ -1,4 +1,10 @@
-﻿/* DivTable.com */
+﻿.big-checkbox {
+    width: 30px;
+    height: 30px;
+}
+
+
+/* DivTable.com */
 .divTable {
     display: table;
     width: 100%;
