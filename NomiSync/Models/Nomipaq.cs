@@ -103,47 +103,47 @@ namespace NomiSync.Models
             -- GO
 
                 -- --------------------------------------------------------------------------------
-                -- Copia la tabla de Tipos de Incidencias [nom10001]
+                -- Copia la tabla de Tipos de Incidencias [nom10022]
                 -- --------------------------------------------------------------------------------
 
-                IF (OBJECT_ID('[{targetDB}].[dbo].[nom10022]') IS NOT NULL)
-                BEGIN
-                    DROP TABLE [{targetDB}].[dbo].[nom10022]
-                END
-                SELECT * INTO [{targetDB}].[dbo].[nom10022]
-                FROM  [{sourceDB}].[dbo].[nom10022]
-
-                ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD CONSTRAINT [PK_nom10022] PRIMARY KEY CLUSTERED  ([idtipoincidencia] ASC)
-                CREATE NONCLUSTERED INDEX [IDXDESCRIPCION] ON [{targetDB}].[dbo].[nom10022] ([descripcion] ASC)
-                CREATE NONCLUSTERED INDEX [IDXMNEMONICO] ON [{targetDB}].[dbo].[nom10022] ([mnemonico] ASC)
-                CREATE NONCLUSTERED INDEX [IDXTIPOINCIDENCIA] ON [{targetDB}].[dbo].[nom10022] ([tipoincidencia] ASC)
-                ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD  CONSTRAINT [DF_nom10022_derechosueldo]  DEFAULT ((0)) FOR [derechosueldo]
-                ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD  CONSTRAINT [DF_nom10022_derechoseptimodia]  DEFAULT ((0)) FOR [derechoseptimodia]
+                -- IF (OBJECT_ID('[{targetDB}].[dbo].[nom10022]') IS NOT NULL)
+                -- BEGIN
+                --     DROP TABLE [{targetDB}].[dbo].[nom10022]
+                -- END
+                -- SELECT * INTO [{targetDB}].[dbo].[nom10022]
+                -- FROM  [{sourceDB}].[dbo].[nom10022]
+                -- 
+                -- ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD CONSTRAINT [PK_nom10022] PRIMARY KEY CLUSTERED  ([idtipoincidencia] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXDESCRIPCION] ON [{targetDB}].[dbo].[nom10022] ([descripcion] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXMNEMONICO] ON [{targetDB}].[dbo].[nom10022] ([mnemonico] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXTIPOINCIDENCIA] ON [{targetDB}].[dbo].[nom10022] ([tipoincidencia] ASC)
+                -- ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD  CONSTRAINT [DF_nom10022_derechosueldo]  DEFAULT ((0)) FOR [derechosueldo]
+                -- ALTER TABLE [{targetDB}].[dbo].[nom10022] ADD  CONSTRAINT [DF_nom10022_derechoseptimodia]  DEFAULT ((0)) FOR [derechoseptimodia]
    
             -- GO
 
                 -- --------------------------------------------------------------------------------
-                -- Copia la tabla de Incidencias [nom10001]
+                -- Copia la tabla de Incidencias [nom10010]
                 -- --------------------------------------------------------------------------------
 
-                IF (OBJECT_ID('[{targetDB}].[dbo].[nom10010]') IS NOT NULL)
-                BEGIN
-                    DROP TABLE [{targetDB}].[dbo].[nom10010]
-                END
-                SELECT * INTO [{targetDB}].[dbo].[nom10010]
-                FROM  [{sourceDB}].[dbo].[nom10010]
-
-                ALTER TABLE [{targetDB}].[dbo].[nom10010] ADD CONSTRAINT [PK_nom10010] PRIMARY KEY CLUSTERED  ([idmovtodyh] ASC)
-                CREATE NONCLUSTERED INDEX [IDXEMPLEADO] ON [{targetDB}].[dbo].[nom10010] ([idempleado] ASC)
-                CREATE NONCLUSTERED INDEX [IDXEMPLEADOFECHA] ON [{targetDB}].[dbo].[nom10010] ([idempleado] ASC,[fecha] ASC)
-                CREATE NONCLUSTERED INDEX [IDXEMPLEADOFECHADESC] ON [{targetDB}].[dbo].[nom10010] ([idempleado] DESC,[fecha] DESC)
-                CREATE NONCLUSTERED INDEX [IDXEMPLEADOPERIODO] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC)
-                CREATE NONCLUSTERED INDEX [IDXIDFECHA] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[fecha] ASC)
-                CREATE NONCLUSTERED INDEX [IDXIDPERIODO] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC)
-                CREATE NONCLUSTERED INDEX [IDXIDTARJETAINCAPACIDAD] ON [{targetDB}].[dbo].[nom10010] ([idtarjetaincapacidad] ASC)
-                CREATE NONCLUSTERED INDEX [IDXIDTCONTROLVACACIONES] ON [{targetDB}].[dbo].[nom10010] ([idtcontrolvacaciones] ASC)
-                CREATE NONCLUSTERED INDEX [IDXPEREMPINC] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC,[idtipoincidencia] ASC)
-                CREATE NONCLUSTERED INDEX [IDXPEREMPINCFEC] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC,[idtipoincidencia] ASC,[fecha] ASC)
+                -- IF (OBJECT_ID('[{targetDB}].[dbo].[nom10010]') IS NOT NULL)
+                -- BEGIN
+                --     DROP TABLE [{targetDB}].[dbo].[nom10010]
+                -- END
+                -- SELECT * INTO [{targetDB}].[dbo].[nom10010]
+                -- FROM  [{sourceDB}].[dbo].[nom10010]
+                -- 
+                -- ALTER TABLE [{targetDB}].[dbo].[nom10010] ADD CONSTRAINT [PK_nom10010] PRIMARY KEY CLUSTERED  ([idmovtodyh] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXEMPLEADO] ON [{targetDB}].[dbo].[nom10010] ([idempleado] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXEMPLEADOFECHA] ON [{targetDB}].[dbo].[nom10010] ([idempleado] ASC,[fecha] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXEMPLEADOFECHADESC] ON [{targetDB}].[dbo].[nom10010] ([idempleado] DESC,[fecha] DESC)
+                -- CREATE NONCLUSTERED INDEX [IDXEMPLEADOPERIODO] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXIDFECHA] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[fecha] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXIDPERIODO] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXIDTARJETAINCAPACIDAD] ON [{targetDB}].[dbo].[nom10010] ([idtarjetaincapacidad] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXIDTCONTROLVACACIONES] ON [{targetDB}].[dbo].[nom10010] ([idtcontrolvacaciones] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXPEREMPINC] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC,[idtipoincidencia] ASC)
+                -- CREATE NONCLUSTERED INDEX [IDXPEREMPINCFEC] ON [{targetDB}].[dbo].[nom10010] ([idperiodo] ASC,[idempleado] ASC,[idtipoincidencia] ASC,[fecha] ASC)
 
             -- GO";
 
